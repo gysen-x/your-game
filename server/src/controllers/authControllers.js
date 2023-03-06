@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 
 const { User } = require('../../db/models');
 
-export async function signInAndSendStatus(req, res) {
+exports.signInAndSendStatus = async (req, res) => {
   const { email, password } = req.body;
   console.log('req.body: ', req.body);
 
@@ -24,9 +24,9 @@ export async function signInAndSendStatus(req, res) {
     if (err.name === 'SequelizeUniqueConstraintError') errMsg = err.errors[0].message;
     res.status(401).json({ errMsg });
   }
-}
+};
 
-export async function signUpAndSendStatus(req, res) {
+exports.signUpAndSendStatus = async (req, res) => {
   const { name, email, password } = req.body;
   try {
     const hashPassword = await bcrypt.hash(password, 10);
@@ -40,20 +40,20 @@ export async function signUpAndSendStatus(req, res) {
     if (err.name === 'SequelizeUniqueConstraintError') errMsg = err.errors[0].message;
     res.status(401).json({ errMsg });
   }
-}
+};
 
-export function signout(req, res) {
+exports.signout = (req, res) => {
   req.session.destroy((err) => {
     if (err) console.log(err);
     res.clearCookie('sid');
     res.sendStatus(200);
   });
-}
+};
 
-export function check(req, res) {
+exports.check = (req, res) => {
   if (req.session.user) {
     res.json(req.session.user);
   } else {
     res.json({ fail: 'fail' });
   }
-}
+};

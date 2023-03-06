@@ -4,7 +4,7 @@ const {
 
 const { getSixCategoriesIds, getQuestionsSet } = require('../lib/gameFunctions');
 
-export async function getGames(req, res) {
+exports.getGames = async (req, res) => {
   const { id } = req.session.user;
 
   try {
@@ -14,9 +14,9 @@ export async function getGames(req, res) {
   } catch (err) {
     res.json({ fail: 'fail' });
   }
-}
+};
 
-export async function createGame(req, res) {
+exports.createGame = async (req, res) => {
   const { id: userId } = req.session.user;
 
   try {
@@ -37,9 +37,9 @@ export async function createGame(req, res) {
   } catch (err) {
     res.json({ fail: 'fail' });
   }
-}
+};
 
-export async function getGame(req, res) {
+exports.getGame = async (req, res) => {
   const { id: userId } = req.session.user;
   const { id } = req.params;
 
@@ -56,9 +56,9 @@ export async function getGame(req, res) {
   } catch (err) {
     res.json({ fail: 'fail' });
   }
-}
+};
 
-export async function deleteGame(req, res) {
+exports.deleteGame = async (req, res) => {
   const { id: userId } = req.session.user;
   const { id } = req.params;
 
@@ -73,9 +73,9 @@ export async function deleteGame(req, res) {
   } catch (err) {
     res.json({ fail: 'fail' });
   }
-}
+};
 
-export async function getQuestion(req, res) {
+exports.getQuestion = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -85,14 +85,14 @@ export async function getQuestion(req, res) {
   } catch (err) {
     res.json({ fail: 'fail' });
   }
-}
+};
 
-export async function checkAnswer(req, res) {
+exports.checkAnswer = async (req, res) => {
   const { answer, id } = req.body;
 
   try {
     const questionWithAnswer = await GameQuestion.findOne({
-      where: id, include: [{ model: Question }, { model: Question }], raw: true, nest: true,
+      where: id, include: [{ model: Question }, { model: Answer }], raw: true, nest: true,
     });
 
     const { gameId } = questionWithAnswer;
@@ -109,9 +109,9 @@ export async function checkAnswer(req, res) {
   } catch (err) {
     res.json({ fail: 'fail' });
   }
-}
+};
 
-export async function updateUser(req, res) {
+exports.updateUser = async (req, res) => {
   const { id } = req.session.user;
   if (req.body.name) {
     const { name } = req.body;
@@ -138,18 +138,18 @@ export async function updateUser(req, res) {
       res.json({ fail: 'fail' });
     }
   }
-}
+};
 
-export async function getStatistics(req, res) {
+exports.getStatistics = async (req, res) => {
   try {
     const statistics = await Game.findAll({ where: { endStatus: true } });
     res.json(statistics);
   } catch (err) {
     res.json({ fail: 'fail' });
   }
-}
+};
 
-export async function getProfile(req, res) {
+exports.getProfile = async (req, res) => {
   const { id } = req.session.user;
   try {
     const user = await User.findOne({ where: { id }, attributes: ['name', 'email', 'avatar'] });
@@ -158,4 +158,4 @@ export async function getProfile(req, res) {
   } catch (err) {
     res.json({ fail: 'fail' });
   }
-}
+};

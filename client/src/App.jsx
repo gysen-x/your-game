@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import ATYPES from './store/types';
 
 import './App.css';
@@ -12,8 +12,6 @@ import Profile from './components/Profile/Profile';
 
 function App() {
   const navigate = useNavigate();
-  const isAuth = useSelector((state) => state.isAuth);
-  console.log('isAuth: ', isAuth);
 
   const dispatch = useDispatch();
 
@@ -23,13 +21,13 @@ function App() {
         credentials: 'include',
       });
       const result = await response.json();
-      console.log('result: ', result);
       if (!result.fail) {
         dispatch({ type: ATYPES.SET_USER, payload: result });
+      } else {
+        navigate('/signin');
       }
     }
     checkAuth();
-    if (!isAuth) navigate('/signin');
   }, []);
 
   return (

@@ -1,7 +1,10 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 export default function Profile() {
   return (
-    <div>Profile</div>
+    <Routes>
+      <Route path="/signin" element={<p>Profile</p>} />
+    </Routes>
   );
 }

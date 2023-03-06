@@ -26,14 +26,13 @@ const sessionConfig = {
 app.use(cors({
   origin: 'http://localhost:4000',
   credentials: true,
-  allowedHeaders: ['content-type'],
+  // allowedHeaders: ['content-type'],
 }));
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(sessions(sessionConfig));
-app.use(cors());
 
 app.use((req, res, next) => {
   console.log('\n\x1b[33m', 'req.session.user :', req.session?.user);

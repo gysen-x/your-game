@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
+  const navigate = useNavigate();
+  const isAuth = useSelector((state) => state.isAuth);
+  console.log('isAuth: ', isAuth);
+
+  useEffect(() => {
+    if (isAuth) navigate('/');
+  }, [isAuth]);
+
   const [userSignup, setUserSignup] = useState({ username: '', email: '', password: '' });
   const [errorSignup, setErrorSignup] = useState('');
   const [alertClass, setAlertClass] = useState('d-none');
@@ -14,7 +24,8 @@ export default function Signup() {
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/auth/signup ', {
+      const response = await fetch('/auth/signup ', {
+        credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userSignup),

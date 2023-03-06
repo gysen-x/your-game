@@ -1,6 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signin() {
+  const navigate = useNavigate();
+  const isAuth = useSelector((state) => state.isAuth);
+
+  useEffect(() => {
+    if (isAuth) navigate('/');
+  }, [isAuth]);
+
   const [userSignin, setUserSignin] = useState({ email: '', password: '' });
   const [errorSignin, setErrorSignin] = useState('');
   const [alertClass, setAlertClass] = useState('d-none');
@@ -15,7 +24,8 @@ export default function Signin() {
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/auth/signin ', {
+      const response = await fetch('/auth/signin ', {
+        credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userSignin),

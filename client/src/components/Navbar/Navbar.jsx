@@ -16,22 +16,22 @@ export default function Navbar() {
             <ul className="navbar-nav">
               <li className="nav-item">
                 <Link to="/">
-                  <a className="nav-link active" aria-current="page" href="/">Homepage</a>
+                  <button type="button">Homepage</button>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/profile">
-                  <a className="nav-link" href="/">Profile</a>
+                  <button type="button">Profile</button>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/signin">
-                  <a className="nav-link" href="/">Sign in</a>
+                  <button type="button">Sign In</button>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/signup">
-                  <a className="nav-link" href="/">Sign up</a>
+                  <button type="button">Sign Up</button>
                 </Link>
               </li>
             </ul>

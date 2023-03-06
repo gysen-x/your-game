@@ -11,7 +11,7 @@ export default function Signup() {
     if (isAuth) navigate('/');
   }, [isAuth]);
 
-  const [userSignup, setUserSignup] = useState({ username: '', email: '', password: '' });
+  const [userSignup, setUserSignup] = useState({ name: '', email: '', password: '' });
   const [errorSignup, setErrorSignup] = useState('');
   const [alertClass, setAlertClass] = useState('d-none');
 
@@ -40,7 +40,7 @@ export default function Signup() {
         setAlertClass('alert alert-success');
         setErrorSignup("Well done! You're logged in!");
       }
-      setUserSignup({ username: '', email: '', password: '' });
+      setUserSignup({ name: '', email: '', password: '' });
     } catch (error) {
       console.log('error: ', error);
     }
@@ -67,8 +67,8 @@ export default function Signup() {
               className="form-control w-100"
               id="exampleInputUsername1"
               type="text"
-              name="username"
-              value={userSignup.username}
+              name="name"
+              value={userSignup.name}
               onChange={handleChange}
             />
           </label>

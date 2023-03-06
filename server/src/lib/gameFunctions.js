@@ -1,4 +1,4 @@
-export function getSixCategoriesIds(allCategories) {
+exports.getSixCategoriesIds = (allCategories) => {
   const nonMutationAllCategories = [...allCategories];
   const l = nonMutationAllCategories.length - 1;
   const result = [];
@@ -11,9 +11,9 @@ export function getSixCategoriesIds(allCategories) {
   }
 
   return result.map((el) => el.id);
-}
+};
 
-export function getQuestionsSet(questions, categories, id) {
+exports.getQuestionsSet = (questions, categories, id) => {
   const onlyOurCategoryQuestions = [[], [], [], [], [], []];
 
   for (let i = 0; i < categories.length; i += 1) {
@@ -60,4 +60,4 @@ export function getQuestionsSet(questions, categories, id) {
   }
 
   return result;
-}
+};

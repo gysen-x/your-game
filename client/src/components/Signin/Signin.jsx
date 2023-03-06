@@ -97,7 +97,7 @@ export default function Signin() {
         </div>
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-dark"
         >
           Submit
         </button>

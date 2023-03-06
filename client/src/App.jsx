@@ -44,3 +44,19 @@ function App() {
 }
 
 export default App;
+
+// const array = [];
+//   array.from(Array(10).keys());
+
+// <div className="ui grid">
+//   { (array.from(Array(10).keys())).map((num) => (
+//     <div className="five wide column">
+//       <Card>
+//         <Card.Content header={num}>
+//           {num}
+//         </Card.Content>
+//       </Card>
+//     </div>
+//   ))}
+
+// </div>;

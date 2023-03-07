@@ -21,6 +21,12 @@ export default function Homepage() {
     })();
   }, []);
 
+  const newGame = async () => {
+    const response = await fetch('/games/new', { credentials: 'include' });
+    const result = await response.json()
+    console.log(result)
+  };
+
   return (
     <div className="container center aligned middle">
       <Segment.Group>
@@ -68,7 +74,7 @@ export default function Homepage() {
           </Segment.Group>
         ))}
         <Segment>
-          <Button color="black" fluid size="large">
+          <Button onClick={newGame} color="black" fluid size="large">
             New game
           </Button>
         </Segment>

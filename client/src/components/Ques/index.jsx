@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./ques.css";
 import "semantic-ui-css/semantic.min.css";
 
@@ -8,11 +8,15 @@ export default function Ques() {
   const id = 2;
   const [allQues, setAllQues] = useState([]);
   const [ques, setQues] = useState(["Какое имя у Игоря?"]);
-  const [timer, setTimer] = useState(5);
+  const [answer, setAnswer] = useState("");
+  const [timer, setTimer] = useState(20);
+  const navigate = useNavigate();
   useEffect(() => {
     (async () => {
       try {
-        const question = await fetch(`http://localhost:3000/game/questions/${id}`);
+        const question = await fetch(
+          `http://localhost:3000/game/questions/${id}`
+        );
         const res = await question.json();
         console.log("question======>", res);
       } catch {
@@ -20,6 +24,18 @@ export default function Ques() {
       }
     })();
   }, []);
+  const fatal = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Время вышло...",
+      text: "Иди учись!",
+      confirmButtonText: "Я пошел",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate(-1);
+      }
+    });
+  };
   useEffect(() => {
     const interval = setInterval(() => {
       if (timer > 0) {
@@ -32,36 +48,35 @@ export default function Ques() {
             body: JSON.stringify(),
           });
         })();
-        Swal.fire({
-          icon: "error",
-          title: "Время вышло...",
-          text: "Иди учись!",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire("work it");
-          }
-        });
-
+        fatal();
         setTimer("Время вышло!");
         clearInterval(interval);
       }
     }, 1000);
     return () => clearInterval(interval);
   }, [timer]);
-
+  const handleChange = (event) => {
+    setAnswer(event.target.value);
+  };
   const handleClick = () => {
+    console.log(answer);
     Swal.fire({
       title: "Правильный ответ",
       width: 600,
       padding: "3em",
       color: "#716add",
-      background: "#fff url(/images/trees.png)",
+      background:
+        "#fff url(https://tikkurila.ru/sites/default/files/styles/thumbnail_800_auto/public/121433-1644256852.png?itok=ysIoCTOf)",
       backdrop: `
           rgba(0,0,123,0.4)
           url("https://media.tenor.com/xzjlrhYq_lQAAAAj/cat-nyan-cat.gif")
           left top
           no-repeat
         `,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate(-1);
+      }
     });
   };
   return (
@@ -76,7 +91,12 @@ export default function Ques() {
                 <div class="field">
                   <label className="answer">Ваш ответ:</label>
                   <div class="ui fluid input">
-                    <input type="text" placeholder="Ваш ответ" />
+                    <input
+                      onChange={handleChange}
+                      value={answer}
+                      type="text"
+                      placeholder="Ваш ответ"
+                    />
                   </div>
                 </div>
               </div>

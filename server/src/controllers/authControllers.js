@@ -4,7 +4,6 @@ const { User } = require('../../db/models');
 
 exports.signInAndSendStatus = async (req, res) => {
   const { email, password } = req.body;
-  console.log('req.body: ', req.body);
 
   try {
     const userFromDatabase = await User.findOne({ where: { email }, raw: true });

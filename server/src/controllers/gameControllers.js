@@ -17,7 +17,7 @@ exports.getGames = async (req, res) => {
   const { id } = req.session.user;
 
   try {
-    const userGames = await Game.findAll({ where: { id }, order: ['id'] });
+    const userGames = await Game.findAll({ where: { userId: id }, order: ['id'] });
 
     res.send(userGames);
   } catch (err) {
@@ -51,7 +51,7 @@ exports.createGame = async (req, res) => {
     );
     await GameQuestion.bulkCreate(newSetOfQuestions);
 
-    res.json(gameId);
+    res.json({ gameId });
   } catch (err) {
     console.log(err);
     res.json({ fail: 'fail' });
@@ -59,8 +59,7 @@ exports.createGame = async (req, res) => {
 };
 
 exports.getGame = async (req, res) => {
-  // const { id: userId } = req.session.user;
-  const userId = 1;
+  const { id: userId } = req.session.user;
   const { id } = req.params;
 
   try {
@@ -80,7 +79,6 @@ exports.getGame = async (req, res) => {
         nest: true,
       });
       const sortedQuestions = getSortedQuestions(questions);
-      console.log(sortedQuestions);
       res.json(sortedQuestions);
     } else {
       res.json({ fail: 'fail' });
@@ -97,7 +95,7 @@ exports.deleteGame = async (req, res) => {
   try {
     const game = await Game.findByPk(id);
     if (game.userId === userId) {
-      await Game.destroy({ id });
+      await Game.destroy({ where: { id } });
       res.json({ success: 'success' });
     } else {
       res.json({ fail: 'fail' });

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import ATYPES from '../../store/types';
 
 export default function Signin() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuth = useSelector((state) => state.isAuth);
 
@@ -37,6 +39,7 @@ export default function Signin() {
       } else {
         setAlertClass('alert alert-success');
         setErrorSignin("Well done! You're logged in!");
+        dispatch({ type: ATYPES.SET_USER, payload: {} });
       }
       setUserSignin({ username: '', email: '', password: '' });
     } catch (error) {

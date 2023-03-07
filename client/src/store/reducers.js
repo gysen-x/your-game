@@ -13,6 +13,9 @@ const redusers = (state = initialState, action) => {
     case ATYPES.SET_USER:
       return { ...state, user: action.payload, isAuth: true };
 
+    case ATYPES.SIGN_OUT_USER:
+      return { ...state, user: {}, isAuth: false };
+
     default:
       return state;
   }

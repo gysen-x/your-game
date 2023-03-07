@@ -1,30 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Segment, Button } from 'semantic-ui-react';
 
 export default function Game() {
-  // const one = {
-  //   id: 1,
-  //   name: 'секс-игрушки',
-  //   questions: [
-  //     { id: 1, status: true, points: 100 },
-  //     { id: 2, status: false, points: 200 },
-  //     { id: 3, status: true, points: 300 },
-  //     { id: 4, status: false, points: 400 },
-  //     { id: 5, status: true, points: 500 },
-  //   ],
-  // };
+  const [questions, setQuestions] = useState([]);
+  console.log('questions: ', questions);
 
-  // const arr = new Array(6);
-  // arr.fill(one);
-  // console.log('arr: ', arr);
-
-  const [questions, setQuestions] = useState();
+  const { gameId } = useParams();
 
   useEffect(() => {
+    console.log('useEffect');
     (async () => {
+      console.log('async');
       try {
-        const response = await fetch('/questions');
+        const response = await fetch(`/game/games/${gameId}`);
         const result = await response.json();
+        console.log('result: ', result);
         setQuestions(result);
       } catch (error) {
         console.log(error);
@@ -51,23 +42,39 @@ export default function Game() {
         {questions.map((elem) => (
           <div
             className="six column row"
-            key={elem.name}
+            key={elem.category.id}
           >
             <div className="column">
-              {elem.name}
+              {elem.category.name}
             </div>
             {elem.questions.map((el) => (
-              <button
-                className="button column"
-                type="button"
-                key={el.id}
-                onClick={() => console.log('click')}
-              >
-                <h3>
-                  {el.points}
-                </h3>
+              !el.status ? (
+                <button
+                  className="button column"
+                  type="button"
+                  key={el.id}
+                  onClick={() => console.log('click')}
+                >
+                  <h3>
+                    {el.Question.points}
+                  </h3>
+                </button>
+              ) : (
+                <button
+                  className="button column"
+                  type="button"
+                  key={el.id}
+                  disabled
+                  style={{
+                    opacity: '0',
+                  }}
+                >
+                  <h3>
+                    {el.Question.points}
+                  </h3>
+                </button>
+              )
 
-              </button>
             ))}
           </div>
 

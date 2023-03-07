@@ -1,4 +1,5 @@
 import React from 'react';
+import { Segment, Button } from 'semantic-ui-react';
 
 export default function Game() {
   const one = {
@@ -25,8 +26,14 @@ export default function Game() {
         margin: '0 auto',
       }}
     >
+      <Segment inverted>
+        <p>
+          Current points
+        </p>
+        <Button content="End game" />
+      </Segment>
 
-      <div className="ui grid">
+      <div className="ui relaxed grid">
         {arr.map((elem) => (
           <div
             className="six column row"
@@ -37,7 +44,7 @@ export default function Game() {
             </div>
             {elem.questions.map((el) => (
               <button
-                className="column"
+                className="button column"
                 type="button"
                 key={el.id}
                 onClick={() => console.log('click')}

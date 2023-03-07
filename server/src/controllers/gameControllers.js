@@ -105,10 +105,27 @@ exports.deleteGame = async (req, res) => {
   }
 };
 
+exports.endGame = async (req, res) => {
+  const { id: userId } = req.session.user;
+  const { id } = req.params;
+
+  try {
+    const game = await Game.findByPk(id);
+    if (game.userId === userId) {
+      await Game.update({ endStatus: true }, { where: { id } });
+      res.json({ success: 'success' });
+    } else {
+      res.json({ fail: 'fail' });
+    }
+  } catch (err) {
+    res.json({ fail: 'fail' });
+  }
+};
+
 exports.getQuestion = async (req, res) => {
   const { id } = req.params;
   try {
-    const question = await GameQuestion.findByPk(id);
+    const question = await GameQuestion.findOne({ where: { id }, include: Question });
     res.json(question);
   } catch (err) {
     res.json({ fail: 'fail' });
@@ -120,8 +137,13 @@ exports.checkAnswer = async (req, res) => {
 
   try {
     const questionWithAnswer = await GameQuestion.findOne({
-      where: id,
-      include: [{ model: Question }, { model: Answer }],
+      where: { id },
+      include: [{
+        model: Question,
+        include: {
+          model: Answer,
+        },
+      }],
       raw: true,
       nest: true,
     });

@@ -12,6 +12,7 @@ const {
   updateUser,
   getStatistics,
   getProfile,
+  endGame,
 } = require('../controllers/gameControllers');
 
 router.get('/games', getGames);
@@ -21,6 +22,8 @@ router.get('/games/new', createGame);
 router.get('/games/:id', getGame);
 
 router.delete('/games/:id', deleteGame);
+
+router.get('/games/:id/end', endGame);
 
 router.get('/questions/:id', getQuestion);
 

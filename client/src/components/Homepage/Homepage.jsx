@@ -14,7 +14,6 @@ export default function Homepage() {
       try {
         const response = await fetch('/game/games');
         const result = await response.json();
-        console.log('result: ', result);
         setGames(result);
       } catch (error) {
         console.log('error: ', error);
@@ -57,7 +56,7 @@ export default function Homepage() {
           <Header as="h3">Your games</Header>
         </Segment>
         {games.map((game) => (
-          <Segment.Group horizontal>
+          <Segment.Group horizontal key={game.id}>
             <Segment>
               <p>
                 {' '}
@@ -71,8 +70,8 @@ export default function Homepage() {
             </Segment>
             <Segment>
               <Progress
-                value={game.questionsPassed}
-                total={30}
+                value={String(game.questionsPassed)}
+                total={String(30)}
                 active
               />
             </Segment>

@@ -1,27 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Segment, Button } from 'semantic-ui-react';
 
 export default function Game() {
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
-  console.log('questions: ', questions);
+  const [points, setPoints] = useState(0);
 
   const { gameId } = useParams();
 
   useEffect(() => {
-    console.log('useEffect');
     (async () => {
-      console.log('async');
       try {
         const response = await fetch(`/game/games/${gameId}`);
         const result = await response.json();
-        console.log('result: ', result);
-        setQuestions(result);
+        setQuestions(result.sortedQuestions);
+        setPoints(result.game.points);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
+
+  const handleEndGame = async (id) => {
+    const response = await fetch(`http://localhost:3000/game/games/${id}/end`, { credentials: 'include' });
+    const result = await response.json();
+    if (result.success) {
+      navigate('/');
+    }
+  };
+
+  // useEffect(() => {
+  //   const handleQuestionSelect = (questionId) => {
+  //     navigate(`/game/question/${questionId}`);
+  //   };
+  // }, []);
 
   return (
     <div
@@ -35,7 +49,13 @@ export default function Game() {
         <p>
           Current points
         </p>
-        <Button content="End game" />
+        <h3>
+          {points}
+        </h3>
+        <Button
+          onClick={() => handleEndGame(gameId)}
+          content="End game"
+        />
       </Segment>
 
       <div className="ui relaxed grid">
@@ -53,7 +73,7 @@ export default function Game() {
                   className="button column"
                   type="button"
                   key={el.id}
-                  onClick={() => console.log('click')}
+                  onClick={() => navigate(`/game/question/${el.id}`)}
                 >
                   <h3>
                     {el.Question.points}

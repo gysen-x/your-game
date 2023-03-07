@@ -17,7 +17,7 @@ exports.getGames = async (req, res) => {
   const { id } = req.session.user;
 
   try {
-    const userGames = await Game.findAll({ where: { userId: id }, order: ['id'] });
+    const userGames = await Game.findAll({ where: { userId: id, endStatus: false }, order: ['id'] });
 
     res.send(userGames);
   } catch (err) {
@@ -79,7 +79,7 @@ exports.getGame = async (req, res) => {
         nest: true,
       });
       const sortedQuestions = getSortedQuestions(questions);
-      res.json(sortedQuestions);
+      res.json({ sortedQuestions, game });
     } else {
       res.json({ fail: 'fail' });
     }
@@ -134,6 +134,7 @@ exports.getQuestion = async (req, res) => {
 
 exports.checkAnswer = async (req, res) => {
   const { answer, id } = req.body;
+  console.log('answer, id: ', answer, id);
 
   try {
     const questionWithAnswer = await GameQuestion.findOne({
@@ -149,18 +150,24 @@ exports.checkAnswer = async (req, res) => {
     });
 
     const { gameId } = questionWithAnswer;
-    const { points: qPoints } = questionWithAnswer.Question.points;
+    const { points: qPoints } = questionWithAnswer.Question;
+    console.log('qPoints: ', qPoints);
+    const minus = -1 * qPoints;
 
     const rightAnswer = questionWithAnswer.Question.Answer.text;
     if (rightAnswer.toLowerCase().includes(answer.toLowerCase())) {
+      await GameQuestion.update({ status: true }, { where: { id } });
+
       await Game.increment(
         { points: qPoints, questionsPassed: 1, trueAnswers: 1 },
         { where: { id: gameId } },
       );
       res.json({ success: 'success' });
     } else {
+      await GameQuestion.update({ status: true }, { where: { id } });
+
       await Game.increment(
-        { points: -qPoints, questionsPassed: 1, falseAnswers: 1 },
+        { points: minus, questionsPassed: 1, falseAnswers: 1 },
         { where: { id: gameId } },
       );
       res.json({ fail: 'fail' });

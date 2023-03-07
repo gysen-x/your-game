@@ -40,6 +40,12 @@ export default function Navbar() {
             onClick={handleItemClick}
           />
         </Link>
+        <Link to="/ques">
+          <Menu.Item
+            name="ques"
+            active={activeItem === 'signup'}
+          />
+        </Link>
       </Menu>
     </Segment>
   );

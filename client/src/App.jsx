@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ATYPES from './store/types';
+import Ques from './components/Ques';
 
 import './App.css';
 
@@ -35,9 +36,10 @@ function App() {
       <Navbar />
       <Routes>
         {/* приватная главная страница */}
-        <Route path="/*" element={<Profile />} />
+        <Route path="/" element={<Profile />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/ques" element={<Ques />} />
       </Routes>
     </div>
   );

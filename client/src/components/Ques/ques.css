@@ -1,0 +1,24 @@
+.timer {
+  text-align: center;
+}
+.test {
+
+}
+.window {
+  margin-top: 50px;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.myform {
+  border-color: white;
+  text-align: center;
+  margin-top: 100px;
+}
+.mysegment {
+  height: 100%;
+  height: 250px;
+  border-radius: 50px;
+  text-align: center;
+}
